@@ -85,7 +85,7 @@ class_name = []
 
 #Coco - Server
 COCO = "/app/streamlitobjectdetection/models/coco.names"
-OBJ = "/app/streamlitobjectdetectionmodels/obj.names"
+OBJ = "/app/streamlitobjectdetection/models/obj.names"
 
 #Coco - Local
 #COCO = "models\\coco.names"
