@@ -111,7 +111,7 @@ model_weight2 = "/app/streamlitobjectdetectionmodels/yolov4-tiny-3l-obj_best.wei
 
 
 # darknet files
-net = cv2.dnn.readNetFromDarknet(model_config_file, model_weight)
+net = cv2.dnn.readNet(model_weight, model_config_file)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 
