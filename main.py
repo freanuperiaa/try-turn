@@ -154,7 +154,7 @@ def app_object_detection():
                         violate.add(i)
                         violate.add(j)
 
-            for (i (classid, score, box)) in zip(classes, scores, boxes):
+            for (i, (classid, score, box)) in zip(classes, scores, boxes):
                 if classid == 0:
                     centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
                     centroids.append(centerCoord)
