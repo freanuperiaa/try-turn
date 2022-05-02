@@ -84,8 +84,8 @@ COLORS = [(0, 255, 0), (0, 0, 255), (255, 0, 0),
 class_name = []
 
 #Coco - Server
-COCO = "models/coco.names"
-OBJ = "models/obj.names"
+COCO = "/app/streamlitobjectdetection/models/coco.names"
+OBJ = "/app/streamlitobjectdetectionmodels/obj.names"
 
 #Coco - Local
 #COCO = "models\\coco.names"
@@ -99,11 +99,11 @@ with open(OBJ, 'rt') as f:
     class_name2 = f.read().rstrip('\n').split('\n')
 
 # configration and weights file location - Server
-model_config_file = "models/yolov4-tiny.cfg"
-model_weight = "models/yolov4-tiny.weights"
+model_config_file = "/app/streamlitobjectdetectionmodels/yolov4-tiny.cfg"
+model_weight = "/app/streamlitobjectdetectionmodels/yolov4-tiny.weights"
 
-model_config_file2 = "models/yolov4-tiny-3l-obj.cfg"
-model_weight2 = "models/yolov4-tiny-3l-obj_best.weights"
+model_config_file2 = "/app/streamlitobjectdetectionmodels/yolov4-tiny-3l-obj.cfg"
+model_weight2 = "/app/streamlitobjectdetectionmodels/yolov4-tiny-3l-obj_best.weights"
 
 # configration and weights file location - Local
 #model_config_file = "models\\yolov4-tiny.cfg"
