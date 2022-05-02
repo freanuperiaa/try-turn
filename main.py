@@ -77,6 +77,7 @@ def main():
 # Threshold Values
 Conf_threshold = 0.25
 NMS_threshold = 0.25
+MIN_DISTANCE = 90
 
 # Colours
 COLORS = [(0, 255, 0), (0, 0, 255), (255, 0, 0),
