@@ -144,6 +144,7 @@ def app_object_detection():
             
             for (classid, score, box) in zip(classes, scores, boxes):
                 if classid == 0:
+                    print(type(box))
                     print(box)
                     #box = [ x=12  y=101  w=379 h=259]
                     centerCoord = (box[0]+(box[2]/2), box[1]+(box[3]/2))
