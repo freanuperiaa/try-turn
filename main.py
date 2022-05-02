@@ -141,15 +141,32 @@ def app_object_detection():
                 image, Conf_threshold, NMS_threshold)
             
             # centerCoord = (boxes[0]+(boxes[2]/2), boxes[1]+(boxes[3]/2))
-            
-            for (classid, score, box) in zip(classes, scores, boxes):
+            violate = set()
+            centroids = []
+
+            D = dist.cdist(centroids, centroids, metric="euclidean")
+
+            for i in range(0, D.shape[0]):
+                for j in range(i + 1, D.shape[1]):
+
+                    if D[i, j] < MIN_DISTANCE:
+
+                        violate.add(i)
+                        violate.add(j)
+
+            for (i (classid, score, box)) in zip(classes, scores, boxes):
                 if classid == 0:
                     centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
+                    centroids.append(centerCoord)
                     color = COLORS[int(classid) % len(COLORS)]
+
+                    if i in violate:
+                        color = (0, 0, 255)
+
                     label = "%s : %f" % (class_name[classid[0]], score)
-                    cv2.rectangle(image, box, (235, 225, 52), 1)
+                    cv2.rectangle(image, box, color, 1)
                     cv2.putText(image, label, (box[0], box[1]-10),
-                                cv2.FONT_HERSHEY_COMPLEX, 0.5, (235, 225, 52), 1)
+                                cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
                     cv2.circle(image, centerCoord, 5, color, 1)
                     
 
