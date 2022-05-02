@@ -140,7 +140,6 @@ def app_object_detection():
             classes2, scores2, boxes2 = model2.detect(
                 image, Conf_threshold, NMS_threshold)
         
-            
             for (classid, score, box) in zip(classes, scores, boxes):
                 if classid == 0:
                     print(box)
