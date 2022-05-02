@@ -156,7 +156,7 @@ def app_object_detection():
                     cv2.rectangle(image, box, color, 1)
                     cv2.putText(image, label, (box[0], box[1]-10),
                                 cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
-                    cv2.circle(image, int(centerCoord) , 5, color, 1)
+                    cv2.circle(image, centerCoord, 5, color, 1)
                     
 
             for (classid, score, box) in zip(classes2, scores2, boxes2):
