@@ -146,10 +146,13 @@ def app_object_detection():
             violate = set()
             centroids = []
 
+        
+
             for (classid, score, box) in zip(classes, scores, boxes):
                 if classid == 0:
                     centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
                     centroids.append(centerCoord)
+
                     color = COLORS[int(classid) % len(COLORS)]
 
                     label = "%s : %f" % (class_name[classid[0]], score)
