@@ -144,18 +144,12 @@ def app_object_detection():
             
             for (classid, score, box) in zip(classes, scores, boxes):
                 if classid == 0:
-                    print(type(box))
-                    print(box)
-                    #box = [ x=12  y=101  w=379 h=259]
                     centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
-                    print(type(centerCoord))
-                    print(centerCoord)
-                    #centercoord = (214.5, 230.0)
                     color = COLORS[int(classid) % len(COLORS)]
                     label = "%s : %f" % (class_name[classid[0]], score)
                     cv2.rectangle(image, box, (235, 225, 52), 1)
                     cv2.putText(image, label, (box[0], box[1]-10),
-                                cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
+                                cv2.FONT_HERSHEY_COMPLEX, 0.5, (235, 225, 52), 1)
                     cv2.circle(image, centerCoord, 5, color, 1)
                     
 
