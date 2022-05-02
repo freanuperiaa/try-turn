@@ -100,7 +100,7 @@ with open(OBJ, 'rt') as f:
 
 # configration and weights file location - Server
 model_config_file = "/app/streamlitobjectdetection/models/yolov4-tiny.cfg"
-model_weight = "/app/streamlitobjectdetectionmodels/yolov4-tiny.weights"
+model_weight = "/app/streamlitobjectdetection/models/yolov4-tiny.weights"
 
 model_config_file2 = "/app/streamlitobjectdetection/models/yolov4-tiny-3l-obj.cfg"
 model_weight2 = "/app/streamlitobjectdetection/models/yolov4-tiny-3l-obj_best.weights"
