@@ -143,8 +143,8 @@ def app_object_detection():
             for (classid, score, box) in zip(classes, scores, boxes):
                 if classid == 0:
                     print(box)
-                    centerCoord = (box[0]+(box[2]/2), box[1]+(box[3]/2))
-                    print (centerCoord)
+                    # centerCoord = (box[0]+(box[2]/2), box[1]+(box[3]/2))
+                    # print (centerCoord)
                     color = COLORS[int(classid) % len(COLORS)]
                     label = "%s : %f" % (class_name[classid[0]], score)
                     cv2.rectangle(image, box, color, 1)
