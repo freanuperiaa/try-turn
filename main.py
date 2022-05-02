@@ -147,7 +147,7 @@ def app_object_detection():
                     print(type(box))
                     print(box)
                     #box = [ x=12  y=101  w=379 h=259]
-                    centerCoord = (box[0]+(box[2]/2), box[1]+(box[3]/2))
+                    centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
                     print(type(centerCoord))
                     print(centerCoord)
                     #centercoord = (214.5, 230.0)
