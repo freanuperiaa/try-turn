@@ -143,18 +143,6 @@ def app_object_detection():
                 image, Conf_threshold, NMS_threshold)
             
             # centerCoord = (boxes[0]+(boxes[2]/2), boxes[1]+(boxes[3]/2))
-            violate = set()
-            centroids = []
-
-            D = dist.cdist(centroids, centroids, metric="euclidean")
-
-            for i in range(0, D.shape[0]):
-                for j in range(i + 1, D.shape[1]):
-
-                    if D[i, j] < MIN_DISTANCE:
-
-                        violate.add(i)
-                        violate.add(j)
 
             for (i, (classid, score, box)) in zip(classes, scores, boxes):
                 if classid == 0:
