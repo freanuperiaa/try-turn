@@ -99,11 +99,11 @@ with open(OBJ, 'rt') as f:
     class_name2 = f.read().rstrip('\n').split('\n')
 
 # configration and weights file location - Server
-model_config_file = "/app/streamlitobjectdetectionmodels/yolov4-tiny.cfg"
+model_config_file = "/app/streamlitobjectdetection/models/yolov4-tiny.cfg"
 model_weight = "/app/streamlitobjectdetectionmodels/yolov4-tiny.weights"
 
-model_config_file2 = "/app/streamlitobjectdetectionmodels/yolov4-tiny-3l-obj.cfg"
-model_weight2 = "/app/streamlitobjectdetectionmodels/yolov4-tiny-3l-obj_best.weights"
+model_config_file2 = "/app/streamlitobjectdetection/models/yolov4-tiny-3l-obj.cfg"
+model_weight2 = "/app/streamlitobjectdetection/models/yolov4-tiny-3l-obj_best.weights"
 
 # configration and weights file location - Local
 #model_config_file = "models\\yolov4-tiny.cfg"
@@ -111,7 +111,7 @@ model_weight2 = "/app/streamlitobjectdetectionmodels/yolov4-tiny-3l-obj_best.wei
 
 
 # darknet files
-net = cv2.dnn.readNet(model_weight, model_config_file)
+net = cv2.dnn.readNetFromDarknet(model_config_file, model_weight)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 
