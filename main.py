@@ -144,13 +144,11 @@ def app_object_detection():
                 image, Conf_threshold, NMS_threshold)
             
             # centerCoord = (boxes[0]+(boxes[2]/2), boxes[1]+(boxes[3]/2))
-            violate = set()
             centroids = []
-
-        
 
             for (classid, score, box) in zip(classes, scores, boxes):
                 if classid == 0:
+
                     centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
                     centroids.append(centerCoord)
 
@@ -161,6 +159,8 @@ def app_object_detection():
                     cv2.putText(image, label, (box[0], box[1]-10),
                                 cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
                     cv2.circle(image, centerCoord, 5, color, 1)
+
+                    print (centroids)
                     
 
             for (classid, score, box) in zip(classes2, scores2, boxes2):
