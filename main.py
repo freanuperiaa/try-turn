@@ -153,7 +153,7 @@ def app_object_detection():
                     centroids.append(np.array(centerCoord))
 
                     D = dist.cdist(centroids, centroids, metric="euclidean")
-                    print("Distance: " + D)
+                    print(D)
                     # for i in range(0, D.shape[0]):
                     #     for j in range(i + 1, D.shape[1]):
                     #         if D[i, j] < MIN_DISTANCE:
