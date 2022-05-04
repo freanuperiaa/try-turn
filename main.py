@@ -151,9 +151,15 @@ def app_object_detection():
 
                     centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
                     centroids.append(np.array(centerCoord))
-                    
+
                     D = dist.cdist(centroids, centroids, metric="euclidean")
-                    print(D)
+                    print("Distance: " + D)
+                    # for i in range(0, D.shape[0]):
+                    #     for j in range(i + 1, D.shape[1]):
+                    #         if D[i, j] < MIN_DISTANCE:
+
+                    #             violate.add(i)  
+                    #             violate.add(j)
 
                     color = COLORS[int(classid) % len(COLORS)]
 
