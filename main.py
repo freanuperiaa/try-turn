@@ -229,7 +229,7 @@ def app_object_detection():
                 end_point = red_line_list[check+1]
                 check_line_x = abs(end_point[0] - start_point[0])   		
                 check_line_y = abs(end_point[1] - start_point[1])	
-                if (check_line_x < 75) and (check_line_y < 25):			
+                if (check_line_x < MIN_DISTANCE) and (check_line_y < 25):			
                     cv2.line(image, start_point, end_point, (255, 0, 0), 2) 
 
             for (classid, score, box) in zip(classes2, scores2, boxes2):
