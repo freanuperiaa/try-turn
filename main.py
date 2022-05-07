@@ -21,9 +21,9 @@ from aiortc.contrib.media import MediaPlayer
 
 import time
 import pandas as pd
-
+import math
 from scipy.spatial import distance as dist
-
+from itertools import combinations
 
 from streamlit_webrtc import (
     AudioProcessorBase,
@@ -77,11 +77,15 @@ def main():
 # Threshold Values
 Conf_threshold = 0.25
 NMS_threshold = 0.25
+
+Conf_threshold2 = 0.30
+NMS_threshold2 = 0.30
+
 MIN_DISTANCE = 90
 
 # Colours
 COLORS = [(0, 255, 0), (0, 0, 255), (255, 0, 0),
-          (255, 255, 0), (255, 0, 255), (0, 255, 255)]
+        (255, 255, 0), (255, 0, 255), (0, 255, 255)]
 
 # empty list
 class_name = []
@@ -130,6 +134,41 @@ model2 = cv2.dnn_DetectionModel(net2)
 model2.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 
 
+def is_close(p1, p2):
+    """
+    #================================================================
+    # 1. Purpose : Calculate Euclidean Distance between two points
+    #================================================================    
+    :param:
+    p1, p2 = two points for calculating Euclidean Distance
+    :return:
+    dst = Euclidean Distance between two 2d points
+    """
+    dst = math.sqrt(p1**2 + p2**2)
+    #=================================================================#
+    return dst 
+
+
+def convertBack(x, y, w, h): 
+    #================================================================
+    # 2.Purpose : Converts center coordinates to rectangle coordinates
+    #================================================================  
+    """
+    :param:
+    x, y = midpoint of bbox
+    w, h = width, height of the bbox
+    
+    :return:
+    xmin, ymin, xmax, ymax
+    """
+    xmin = int(round(x))
+    xmax = int(round(x+w))
+    ymin = int(round(y))
+    ymax = int(round(y+h))
+
+    return xmin, ymin, xmax, ymax
+
+
 def app_object_detection():
 
     class Video(VideoProcessorBase):
@@ -138,36 +177,57 @@ def app_object_detection():
             image = frame.to_ndarray(format="bgr24")
 
             classes, scores, boxes = model.detect(
-                image, Conf_threshold, NMS_threshold)
-            
+                image, Conf_threshold2, NMS_threshold2)
+    
             classes2, scores2, boxes2 = model2.detect(
                 image, Conf_threshold, NMS_threshold)
-            
-            # centerCoord = (boxes[0]+(boxes[2]/2), boxes[1]+(boxes[3]/2))
+
             centroids = []
+            violate = set()
+            centroid_dict = dict() 
+            objectId = 0
+            red_zone_list = []
+            red_line_list = []
 
-            for (classid, score, box) in zip(classes, scores, boxes):
+            for i , (classid, score, box) in enumerate (zip(classes, scores, boxes)):
                 if classid == 0:
-
                     centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
-                    centroids.append(np.array(centerCoord))
+                    color = (0, 255, 0)
+                    # label = "%s : %f" % (class_name[classid[0]], score)
+                    # cv2.putText(image, label, (box[0], box[1]-10),
+                    #             cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
+                    cv2.circle(image, centerCoord, 5, color, 1) 
+                    x, y, w, h= box
+                    xmin, ymin, xmax, ymax = convertBack(float(x), float(y), float(w), float(h))
+                    centroid_dict[objectId] = (int(x), int(y), xmin, ymin, xmax, ymax,centerCoord) 
+                    objectId += 1
 
-                    D = dist.cdist(centroids, centroids, metric="euclidean")
-                    print(D)
-                    # for i in range(0, D.shape[0]):
-                    #     for j in range(i + 1, D.shape[1]):
-                    #         if D[i, j] < MIN_DISTANCE:
+            for (id1, p1), (id2, p2) in combinations(centroid_dict.items(), 2): 
+                dx, dy = p1[0] - p2[0], p1[1] - p2[1]   	
+                distance = is_close(dx, dy) 			
+                if distance < MIN_DISTANCE:						
+                    if id1 not in red_zone_list:
+                        red_zone_list.append(id1)       
+                        red_line_list.append(p1[6]) 
+                    if id2 not in red_zone_list:
+                        red_zone_list.append(id2)	
+                        red_line_list.append(p2[6])
 
-                    #             violate.add(i)  
-                    #             violate.add(j)
 
-                    color = COLORS[int(classid) % len(COLORS)]
+            for idx, box in centroid_dict.items():
+                if idx in red_zone_list:  
+                    cv2.rectangle(image, (box[2], box[3]), (box[4], box[5]), (0, 0, 255), 2)
 
-                    label = "%s : %f" % (class_name[classid[0]], score)
-                    cv2.rectangle(image, box, color, 1)
-                    cv2.putText(image, label, (box[0], box[1]-10),
-                                cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
-                    cv2.circle(image, centerCoord, 5, color, 1)                    
+                else:
+                    cv2.rectangle(image, (box[2], box[3]), (box[4], box[5]), (0, 255, 0), 2)
+
+            for check in range(0, len(red_line_list)-1):					
+                start_point = red_line_list[check] 
+                end_point = red_line_list[check+1]
+                check_line_x = abs(end_point[0] - start_point[0])   		
+                check_line_y = abs(end_point[1] - start_point[1])	
+                if (check_line_x < 75) and (check_line_y < 25):			
+                    cv2.line(image, start_point, end_point, (255, 0, 0), 2) 
 
             for (classid, score, box) in zip(classes2, scores2, boxes2):
                 if classid != 4:
