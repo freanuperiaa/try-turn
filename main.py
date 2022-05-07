@@ -131,7 +131,7 @@ model = cv2.dnn_DetectionModel(net)
 model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 
 model2 = cv2.dnn_DetectionModel(net2)
-model2.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
+model2.setInputParams(size=(608,608), scale=1/255, swapRB=True)
 
 
 def is_close(p1, p2):
@@ -192,11 +192,11 @@ def app_object_detection():
             for i , (classid, score, box) in enumerate (zip(classes, scores, boxes)):
                 if classid == 0:
                     centerCoord = (int(box[0]+(box[2]/2)), int(box[1]+(box[3]/2)))
-                    color = (0, 255, 0)
+                    # color = (0, 255, 0)
                     # label = "%s : %f" % (class_name[classid[0]], score)
                     # cv2.putText(image, label, (box[0], box[1]-10),
                     #             cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 1)
-                    cv2.circle(image, centerCoord, 5, color, 1) 
+                    cv2.circle(image, centerCoord, 5, (255, 0, 0), 1) 
                     x, y, w, h= box
                     xmin, ymin, xmax, ymax = convertBack(float(x), float(y), float(w), float(h))
                     centroid_dict[objectId] = (int(x), int(y), xmin, ymin, xmax, ymax,centerCoord) 
