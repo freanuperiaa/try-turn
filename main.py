@@ -131,7 +131,7 @@ model = cv2.dnn_DetectionModel(net)
 model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 
 model2 = cv2.dnn_DetectionModel(net2)
-model2.setInputParams(size=(608,608), scale=1/255, swapRB=True)
+model2.setInputParams(size=(416,416), scale=1/255, swapRB=True)
 
 
 def is_close(p1, p2):
