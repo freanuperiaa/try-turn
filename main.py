@@ -222,7 +222,7 @@ def app_object_detection():
                     cv2.rectangle(image, (box[2], box[3]), (box[4], box[5]), (0, 255, 0), 2)
                 
                 text = "Social Distancing Violations: {}".format(len(red_zone_list))
-                cv2.putText(image, text, (10, frame.shape[0] - 25), cv2.FONT_HERSHEY_SIMPLEX, 0.85, (0, 0, 255), 3)
+                cv2.putText(image, text, (10, image.shape[0] - 25), cv2.FONT_HERSHEY_SIMPLEX, 0.85, (0, 0, 255), 3)
 
             for check in range(0, len(red_line_list)-1):					
                 start_point = red_line_list[check] 
