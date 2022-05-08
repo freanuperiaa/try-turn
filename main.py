@@ -5,6 +5,9 @@ import threading
 import urllib.request
 from pathlib import Path
 from typing import List, NamedTuple
+import os
+
+from utils import Sound, TimeForSoundChecker, play_alarm, has_violations
 
 try:
     from typing import Literal
@@ -93,6 +96,9 @@ class_name = []
 #Coco - Server
 COCO = "/app/streamlitobjectdetection/models/coco.names"
 OBJ = "/app/streamlitobjectdetection/models/obj.names"
+# for some reason nage error sakin yung path 
+# COCO = "models/coco.names"
+# OBJ = "models/obj.names"
 
 #Coco - Local
 #COCO = "models\\coco.names"
@@ -108,9 +114,13 @@ with open(OBJ, 'rt') as f:
 # configration and weights file location - Server
 model_config_file = "/app/streamlitobjectdetection/models/yolov4-tiny.cfg"
 model_weight = "/app/streamlitobjectdetection/models/yolov4-tiny.weights"
+# model_config_file = "models/yolov4-tiny.cfg"
+# model_weight = "models/yolov4-tiny.weights"
 
 model_config_file2 = "/app/streamlitobjectdetection/models/yolov4-tiny-3l-obj.cfg"
 model_weight2 = "/app/streamlitobjectdetection/models/yolov4-tiny-3l-obj_best.weights"
+# model_config_file2 = "models/yolov4-tiny-3l-obj.cfg"
+# model_weight2 = "models/yolov4-tiny-3l-obj_best.weights"
 
 # configration and weights file location - Local
 #model_config_file = "models\\yolov4-tiny.cfg"
@@ -171,6 +181,8 @@ def convertBack(x, y, w, h):
 
 def app_object_detection():
 
+    checker = TimeForSoundChecker()
+
     class Video(VideoProcessorBase):
 
         def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
@@ -181,6 +193,10 @@ def app_object_detection():
     
             classes2, scores2, boxes2 = model2.detect(
                 image, Conf_threshold, NMS_threshold)
+
+            if checker.has_been_a_second():
+                if has_violations(classes2):
+                    play_alarm()
 
             centroids = []
             violate = set()
