@@ -10,3 +10,4 @@ typing_extensions==3.10.0.0
 openpyxl
 scipy
 playsound
+pygobject
