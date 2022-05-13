@@ -45,8 +45,15 @@ st.set_page_config(page_title="Object Detection", page_icon="🤖")
 
 
 WEBRTC_CLIENT_SETTINGS = ClientSettings(
-    rtc_configuration={"iceServers": [
-        {"urls": ["stun:stun.l.google.com:19302"]}]},
+    rtc_configuration={
+        "iceServers": [
+            {
+                urls: "turn:openrelay.metered.ca:443",
+                username: "openrelayproject",
+                credential: "openrelayproject",
+            },
+        ]
+    },
     media_stream_constraints={
         "video": True,
     },
