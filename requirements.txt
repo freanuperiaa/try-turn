@@ -9,3 +9,4 @@ streamlit_webrtc>=0.25.0
 typing_extensions==3.10.0.0
 openpyxl
 scipy
+playsound
